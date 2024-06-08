@@ -1,0 +1,48 @@
+---
+title: "inferregex"
+author: "dududu"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning=FALSE,
+  error=TRUE,
+  message=FALSE
+)
+```
+
+# 伟大无需多言
+```{r}
+# library(devtools)
+# library(usethis)
+```
+```{r}
+# remotes::install_github("daranzolin/inferregex")
+library(inferregex)
+s <- "abcd-9999-ab9"
+infer_regex(s)$regex
+```
+```{r}
+library(purrr)
+regex_df <- map_dfr(rownames(mtcars), infer_regex)
+regex_df
+```
+```{r}
+# 检查所有行是否匹配正则表达式
+all(map2_lgl(regex_df$string, regex_df$regex, ~grepl(.y, .x)))
+```
+
+
+
+
+
+
+
