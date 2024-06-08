@@ -1,0 +1,80 @@
+---
+title: "markdown"
+author: "dududu"
+date: "`r Sys.Date()`"
+output:
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(eval=TRUE, #在块中运行代码(default = TRUE)
+  tidy=T, #是否整理代码
+  prompt=TRUE, #代码是否添加引导符’>‘
+  highlight=TRUE, #高亮显示源码 (default = TRUE)
+  comment="", #结果的每一行加前缀(default = ‘##’)
+  echo=TRUE, #是否在输出中包含源代码
+  results="markup", #装裱markup、原样asis、隐藏hide、末尾hold
+  collapse=F,#把所有的输出汇聚到单个块中(default = FALSE)
+  warning=FALSE,#是否在输出中包含警告(default = TRUE)
+  error=TRUE, #是否在输出中包含错误信息
+  message=FALSE, #是否在输出中包含参考的信息
+  split=FALSE, #是否将R的输出分割成单独的文件
+  include=TRUE, #运行后是否在文档中显示块 (default = TRUE)
+  cache = TRUE, #对代码段打开缓存
+  cache.path="./cache_file/", #缓存结果的保存路径 (default = “cache/”)
+  # fig.path="figure/prefix-", #图片路径，支持非前缀模式(‘figure/’)
+  # fig.keep="high", #保存图形类型，高级high、不保存none’)、所有图形(‘all’)、第一张(‘first’)、最后一张(‘last’)
+  fig.show="asis", #展示方式，紧随代码asis、最后统一hold、动画animate
+  # fig.width=8, #可以用%表示
+  # fig.height=6, #图片文件的宽、高(英寸2.54cm 为单位)
+  # out.width=8,
+  # out.height=6, #图片在输出文档中的宽、高
+  fig.align="center" #对齐方式，不做调节(‘default’)、左(‘left’)、右(‘right’)、居中(‘center’)
+  # interval=1 #动画参数，切换画面时间，单位为秒
+)
+```
+
+**加粗** *斜体* ***加粗斜体***
+
+
+  - 无序标题1
+  - 无序标题2
+  1. 有序标题1
+  2. 有序标题2
+
+
+行内代码
+```{r}
+x <- c(1:10)
+x
+z <- c(10:20)
+z
+```
+x变量之和为`r sum(x)`
+
+表格输出
+```{r}
+x <- 1:10
+y <- x^2
+lmr <- lm(y~x)
+co <- summary(lmr)$coefficients
+co
+```
+```{r}
+knitr::kable(co,digits = 3,align = 'c')
+```
+
+主题格式
+
+- rticles(pdf 好用)
+- rmdformats
+- prettydoc
+- tufte
+- cerulean
+
