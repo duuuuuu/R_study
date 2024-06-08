@@ -1,0 +1,120 @@
+---
+title: "forcats"
+author: "dududu"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning=FALSE,
+  error=TRUE,
+  message=FALSE
+)
+```
+
+```{r}
+x <- c("优","良","差","良","差","差")
+```
+```{r}
+levels(x) <- c("差","良","优")
+table(x)
+```
+
+## cut(),将连续的向量分为若干段
+```{r}
+age <- c(1:100)
+```
+```{r}
+cut(age, breaks = c(0,18,45,100), labels = c("Young", "Middle", "Old"))
+```
+
+## gl()生成有规律的组合因子
+```{r}
+tibble::tibble(
+  Sex = gl(2,3,length = 12, labels = c("男","女")),
+  Class = gl(3,2,length = 12, labels = c("甲","乙","丙")),
+  Score = gl(4,3,length = 12, labels = c("优","良","中","及格"))
+)
+```
+# forcats 处理因子
+```{r}
+library(forcats)
+```
+```{r}
+x <- as_factor(x) # 转化为因子
+```
+```{r}
+fct_count(x) # 计算各因子水平的频数、占比
+```
+```{r}
+fct_c(x) # 合并多个因子水平
+```
+## 改变因子水平
+```{r}
+# 手动设置
+fct_relevel(x,c("差","良","优"))
+```
+```{r}
+# 按高频优先排序
+fct_infreq(x)
+```
+```{r}
+# 按水平值出现的顺序
+fct_inorder(x)
+```
+```{r}
+# 顺序反转
+fct_rev(x)
+```
+```{r}
+# # 根据其他变量或函数生成的结果排序
+# fct_reorder()
+```
+---
+## 修改顺序
+```{r}
+# 对水平值逐个重编码
+fct_recode(x)
+```
+```{r}
+# 自定义方式
+fct_collapse(x)
+```
+```{r}
+# 将频数较小的水平合并为其他
+fct_lump(x, n = 1)
+fct_lump(x, n = 3)
+# fct_lump()还有一系列函数，fct_lump_n()...
+```
+```{r}
+# 将保留之外或丢弃的水平合并为其他
+fct_other(x, keep = "优")
+fct_other(x, drop = "良")
+fct_other(x, drop = "良", other_level = "良")
+```
+---
+## 增加或删除水平
+```{r}
+fct_drop(x, only = "差")
+```
+
+```{r}
+# fct_expand(x, after = "良")
+```
+```{r}
+# 为NA设置水平
+fct_explicit_na(x,"NA")
+```
+
+
+
+
+
+
