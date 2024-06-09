@@ -1,0 +1,129 @@
+---
+title: "控制结构 purrr"
+author: "dududu"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning=FALSE,
+  error=TRUE,
+  message=FALSE
+)
+```
+
+```{r}
+library(tidyverse)
+```
+# 分支结构（if语句）
+- if语句有很多格式，创建一个分支意味着if(a符合“条件”)，则a=.. 
+- 同样，两个分支即if(a符合“条件”, a = mm, a = bb)
+- 三个分支以及更多分支意味着if的嵌套
+- 值得注意的是，不同分支之间不能有交叉的部分
+```{r}
+# 创建多分支的另一种方法，但只能一次针对一个对象，不能同时处理多个对象，不适用于向量处理
+x <- c("a")
+v <- switch(x, "a" = "apple", "b" = "banana", "c" = "cherry")
+v
+```
+# 循环结构
+- 当前尽管purrr包、apply函数等可以更加简洁高效的替代for、while等循环，但对于要求较高（细致）的循环中优势便没有那明显
+1. for循环 迭代次数已知
+```{r}
+df <- iris[, 1:4]
+
+out_put <- vector("double", 4) # 输出，若不提前设置out_put，效率会变低
+for(i in 1:4 ){ # 迭代器
+  out_put[i] <- mean(df[[i]]) # 循环体
+}
+out_put
+```
+2. while循环 迭代次数未知
+```{r}
+set.seed(1)
+while (TRUE) { # 条件
+  x = rnorm(1) # 循环体
+  print(x)
+  if(x > 2) break
+}
+```
+3. repeat循环 
+```{r}
+# 计算e
+s <- 1
+x <- 1
+k <- 0
+repeat{
+  k = k + 1
+  x = x/k # 让x逐渐变小到0，此时s基本不会发生改变并且k可以取很大的值
+  s = s + x
+  if(x < 1e-12) break
+}
+str_glue("迭代{k}次，得到e = {s}")
+```
+4. apply函数
+---
+# purrr包
+1. 基本概念
+  以下 .x、(..1,..2,..3)为序列参数；.f为要应用的函数
+  - map_chr(.x, .f) 返回字符型向量
+  - map_lgl(.x, .f) 返回逻辑型向量
+  - map_dbl(.x, .f) 返回实数型向量
+  - map_int(.x, .f) 返回整数型向量
+  - map_dfr(.x, .f) 返回数据框列表，并且通过bind_rows（按行）合并为新的数据框
+  - map_dfc(.x, .f) 返回数据框列表，并且通过bind_cols（按列）合并为新的数据框
+  注：sum(...)等价于sum(..1,..2,..3)
+2. map()函数
+```{r}
+map(df, mean)
+map_dbl(df, mean)
+map_dbl(df, ~ mean(.x, na.rm = TRUE)) # purrr风格函数
+```
+3. map2() 同时处理两个序列参数（函数也是二元函数）
+```{r}
+height <- c(1.58, 1.68, 1.78, 1.83)
+weight <- c(45, 45, 60, 75)
+
+cal_BMI <- function(h, w) w/h^2
+map2_dbl(height, weight, cal_BMI)
+map2_dbl(height, weight, ~ .y/.x^2)
+```
+4. pmap() 应用多元函数到多个序列的元素
+```{r}
+df <- tribble(
+  ~n, ~mean, ~sd,
+  1,5,1,
+  3,10,5,
+  5,-3,10
+)
+df
+
+set.seed(2)
+pmap(df, rnorm) # df三列的列名必须与rnorm函数的参数的名称相同
+```
+```{r}
+pmap(df, ~ rnorm(..1, ..2, ..3))
+```
+```{r}
+pmap(df, ~ rnorm(...))
+```
+```{r}
+# 按行操作
+pmap_dbl(df, ~ mean(c(...)))
+pmap_chr(df, str_c, seq = "_")
+pmap_chr(df, str_c, sep = "_")
+pmap_chr(df, ~ str_c(...,sep = "_"))
+```
+
+
+
+
+
+
