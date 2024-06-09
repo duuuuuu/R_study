@@ -21,6 +21,7 @@ knitr::opts_chunk$set(
 ```{r}
 library(tidyverse)
 ```
+
 # 分支结构（if语句）
 - if语句有很多格式，创建一个分支意味着if(a符合“条件”)，则a=.. 
 - 同样，两个分支即if(a符合“条件”, a = mm, a = bb)
@@ -32,6 +33,7 @@ x <- c("a")
 v <- switch(x, "a" = "apple", "b" = "banana", "c" = "cherry")
 v
 ```
+
 # 循环结构
 - 当前尽管purrr包、apply函数等可以更加简洁高效的替代for、while等循环，但对于要求较高（细致）的循环中优势便没有那明显
 1. for循环 迭代次数已知
@@ -53,6 +55,7 @@ while (TRUE) { # 条件
   if(x > 2) break
 }
 ```
+
 3. repeat循环 
 ```{r}
 # 计算e
@@ -69,6 +72,7 @@ str_glue("迭代{k}次，得到e = {s}")
 ```
 4. apply函数
 ---
+
 # purrr包
 1. 基本概念
   以下 .x、(..1,..2,..3)为序列参数；.f为要应用的函数
