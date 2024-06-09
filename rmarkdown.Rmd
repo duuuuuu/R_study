@@ -42,23 +42,25 @@ knitr::opts_chunk$set(eval=TRUE, #在块中运行代码(default = TRUE)
 
 **加粗** *斜体* ***加粗斜体***
 
+-   无序标题1
+-   无序标题2
 
-  - 无序标题1
-  - 无序标题2
-  1. 有序标题1
-  2. 有序标题2
-
+1.  有序标题1
+2.  有序标题2
 
 行内代码
+
 ```{r}
 x <- c(1:10)
 x
 z <- c(10:20)
 z
 ```
+
 x变量之和为`r sum(x)`
 
 表格输出
+
 ```{r}
 x <- 1:10
 y <- x^2
@@ -66,15 +68,15 @@ lmr <- lm(y~x)
 co <- summary(lmr)$coefficients
 co
 ```
+
 ```{r}
 knitr::kable(co,digits = 3,align = 'c')
 ```
 
 主题格式
 
-- rticles(pdf 好用)
-- rmdformats
-- prettydoc
-- tufte
-- cerulean
-
+-   rticles(pdf 好用)
+-   rmdformats
+-   prettydoc
+-   tufte
+-   cerulean
